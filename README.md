@@ -18,7 +18,7 @@ The classes I worked on:
 
 2-method compares the skills of volunteers(volunteerSkills:service,controller)
 
-3-method compares the skills of volunteers(
+3-Method to find a replacement volunteer for an even(Attendance:service,controller)
 
 4-list of all upcoming (future) events for this stadium(Event:repository-service-controller) 
 
