@@ -3,10 +3,7 @@ package com.example.capstone3.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.HashSet;
@@ -44,11 +41,22 @@ public class Volunteer {
     private String phoneNumber;
 
 
+    @NotNull(message = "age cannot be null")
+    @Min(value = 18, message = "Age must be at least 18 years")
+    @Max(value = 60, message = "Age must be less than or equal to 60 years")
+    @Column(columnDefinition = "int not null")
+    private Integer age;
+
+    @NotEmpty(message = "gender cannot be empty")
+    @Pattern(regexp = "Male|Female|Other", message = "Gender must be 'Male', 'Female', or 'Other'")
+    @Column(columnDefinition = "varchar(10) not null")
+    private String gender;
+
+
     @Column(columnDefinition = "boolean not null default false")
     private boolean isTrained = false;
 
-//    @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL)
-//    private Set<Training> trainings;
+
 
     @ManyToOne
     @JoinColumn(name = "training_id", referencedColumnName = "id")

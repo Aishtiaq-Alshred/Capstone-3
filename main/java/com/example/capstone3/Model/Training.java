@@ -67,4 +67,9 @@ public class Training {
     @Column(columnDefinition = "int not null default 0")
     private Integer enrolledVolunteers = 0;
 
+
+    @ManyToOne
+    @JoinColumn(name = "stadium_id", referencedColumnName = "id", nullable = false)
+    private Stadium stadium;
+
 }

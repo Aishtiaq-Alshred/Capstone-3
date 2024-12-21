@@ -3,8 +3,10 @@ package com.example.capstone3.Service;
 import com.example.capstone3.ApiResponse.ApiException;
 import com.example.capstone3.DTO.TrainerDTO;
 import com.example.capstone3.DTO.TrainingDTO;
+import com.example.capstone3.Model.Stadium;
 import com.example.capstone3.Model.Training;
 import com.example.capstone3.Model.Volunteer;
+import com.example.capstone3.Repository.StadiumRepository;
 import com.example.capstone3.Repository.TrainingRepository;
 import com.example.capstone3.Repository.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class TrainingService {
 
     private final TrainingRepository trainingRepository;
     private final VolunteerRepository volunteerRepository;
+    private final StadiumRepository stadiumRepository;
 
 
     public List<Training> getAllTraining(){
@@ -47,14 +50,37 @@ public class TrainingService {
         return trainingDTOS;
     }
 
-    public void addTraining(Training training){
+//    public void addTraining(Training training){
+//
+//        trainingRepository.save(training);
+//    }
+
+
+    public void addTraining(Integer stadiumId,Training training){
+
+        Stadium stadium=stadiumRepository.findStadiumById(stadiumId);
+
+        if(stadium==null){
+            throw  new ApiException("Stadium not found");
+        }
+        //نحدد ملعب للتدريب
+        training.setStadium(stadium);
+
+        //تحديث العلاقة من جانب الملعب
+        stadium.getTrainings().add(training);
 
         trainingRepository.save(training);
     }
 
-    public void updateTraining(Integer id, Training training){
+    public void updateTraining(Integer StadiumId,Integer TrainingId, Training training){
 
-        Training training1=trainingRepository.findTrainingById(id);
+        Stadium stadium=stadiumRepository.findStadiumById(StadiumId);
+
+        if ((stadium==null)){
+            throw  new ApiException("Stadium not found");
+        }
+
+        Training training1=trainingRepository.findTrainingById(TrainingId);
 
         if ((training1==null)){
             throw  new ApiException("Training not found");
@@ -66,6 +92,8 @@ public class TrainingService {
         training1.setEndDate(training.getEndDate());
         training1.setCompleted(training.isCompleted());
 
+
+        training1.setStadium(stadium);
         trainingRepository.save(training1);
     }
 

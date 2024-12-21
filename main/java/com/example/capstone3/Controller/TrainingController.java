@@ -37,16 +37,16 @@ public class TrainingController {
         return ResponseEntity.ok(event);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity addVolunteer(@RequestBody @Valid Training training){
-        trainingService.addTraining(training);
+    @PostMapping("/add/{stadiumId}")
+    public ResponseEntity addVolunteer(@PathVariable Integer stadiumId,@RequestBody @Valid Training training){
+        trainingService.addTraining(stadiumId,training);
         return ResponseEntity.status(200).body("Training added successfully");
     }
 
-    @PutMapping("update/{id}")
-    public ResponseEntity updateTraining(@PathVariable Integer id, @RequestBody @Valid Training training){
+    @PutMapping("update/{StadiumId}/{TrainingId}")
+    public ResponseEntity updateTraining(@PathVariable Integer StadiumId,@PathVariable Integer TrainingId, @RequestBody @Valid Training training){
 
-        trainingService.updateTraining(id, training);
+        trainingService.updateTraining(StadiumId,TrainingId,training);
         return ResponseEntity.status(200).body("Training updated successfully");
 
     }

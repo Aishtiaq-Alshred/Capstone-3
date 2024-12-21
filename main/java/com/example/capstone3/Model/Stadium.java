@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -58,6 +59,13 @@ public class Stadium {
     @OneToMany(mappedBy = "stadium", cascade = CascadeType.ALL)
     // @JSONIGNORE
     private Set<Event> events;
+
+
+
+
+    @OneToMany(mappedBy = "stadium", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Training> trainings = new HashSet<>();
 
 
 }
